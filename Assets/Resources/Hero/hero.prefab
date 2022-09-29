@@ -1316,10 +1316,13 @@ GameObject:
   m_Component:
   - component: {fileID: 415700}
   - component: {fileID: 9588594}
-  - component: {fileID: 1941000699}
   - component: {fileID: 5068127685180309546}
-  - component: {fileID: 2441768009619492063}
   - component: {fileID: 3389489001292213526}
+  - component: {fileID: 1941000699}
+  - component: {fileID: 2441768009619492063}
+  - component: {fileID: 3191822336232379939}
+  - component: {fileID: 575145505611576446}
+  - component: {fileID: 8498793429372502825}
   m_Layer: 12
   m_Name: hero
   m_TagString: Player
@@ -1367,20 +1370,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1941000699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 176288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0b4024fa63c4039b3ed513573f9f84e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Animator: {fileID: 9588594}
-  CharacterController: {fileID: 5068127685180309546}
 --- !u!143 &5068127685180309546
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1399,6 +1388,33 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!65 &3389489001292213526
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176288}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &1941000699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0b4024fa63c4039b3ed513573f9f84e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 9588594}
+  CharacterController: {fileID: 5068127685180309546}
 --- !u!114 &2441768009619492063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1413,19 +1429,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterController: {fileID: 5068127685180309546}
   MovementSpeed: 8
---- !u!65 &3389489001292213526
-BoxCollider:
+--- !u!114 &3191822336232379939
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 176288}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c3e7e92b61b40739442b2162fffd2bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 1941000699}
+--- !u!114 &575145505611576446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 147b33d798fa41da8ef37a25437f12b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: {fileID: 3191822336232379939}
+  Move: {fileID: 2441768009619492063}
+  Animator: {fileID: 1941000699}
+  HeroAttack: {fileID: 8498793429372502825}
+  DeathFx: {fileID: 100006, guid: 8d7c5642b060fa349bb237382b78e072, type: 3}
+--- !u!114 &8498793429372502825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7277a5ea518546189f904d0a01890fb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 1941000699}
+  CharacterController: {fileID: 5068127685180309546}
 --- !u!1 &178646
 GameObject:
   m_ObjectHideFlags: 0

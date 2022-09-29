@@ -1,6 +1,5 @@
 ﻿using System.Linq;
-using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.Services;
+using CodeBase.Logic;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ namespace CodeBase.Enemy {
     public float AttackCooldown = 3f;
     public float Cleavage = 5.0f;
     public float EffectiveDistance = .5f;
-    private IGameFactory _factory;
+    public float Damage = 10f;
     private Transform _heroTransform;
     private float _attackCooldown;
     private bool _isAttacking;
@@ -20,8 +19,6 @@ namespace CodeBase.Enemy {
     private bool _attackIsActive;
 
     private void Awake() {
-      _factory = AllServices.Container.Single<IGameFactory>();
-      _factory.HeroCreated += OnHeroCreated;
       _layerMask = 1 << LayerMask.NameToLayer("Player");
     }
 
@@ -31,6 +28,10 @@ namespace CodeBase.Enemy {
         Debug.Log("CanAttack");
         StartAttack();
       }
+    }
+
+    public void Construct(Transform heroTransform) {
+      _heroTransform = heroTransform;
     }
 
     public void EnabledAttack() {
@@ -59,6 +60,7 @@ namespace CodeBase.Enemy {
       Debug.Log("OnAttack");
       if (Hit(out Collider hit)) {
         PhysicsDebug.DrawDebug(StartPoint(), Cleavage, 1.0f);
+        hit.transform.GetComponent<IHealth>().TakeDamage(Damage);
       }
     }
 
@@ -78,11 +80,6 @@ namespace CodeBase.Enemy {
       transform.LookAt(_heroTransform);
       Animator.PlayAttack();
       _isAttacking = true;
-    }
-
-    private void OnHeroCreated() {
-      _heroTransform = _factory.HeroGameObject.transform;
-      _factory.HeroCreated += OnHeroCreated;
     }
 
     private bool CooldownIsUp() {

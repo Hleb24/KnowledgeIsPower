@@ -16,10 +16,12 @@ namespace CodeBase.Infrastructure.Services.SaveLoad {
 
     public void SaveProgress() {
       foreach (ISaveProgress progressWriter in _gameFactory.ProgressWriters) {
-        progressWriter.LoadProgress(_progressService.Progress);
+        progressWriter.UpdateProgress(_progressService.Progress);
       }
 
       PlayerPrefs.SetString(PROGRESS_KEY, _progressService.Progress.ToJson());
+      PlayerPrefs.Save();
+      Debug.Log("Set string json" + _progressService.Progress.ToJson());
     }
 
     public PlayerProgress LoadProgress() {

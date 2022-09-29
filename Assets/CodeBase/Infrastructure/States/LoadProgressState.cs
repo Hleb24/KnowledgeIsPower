@@ -23,12 +23,22 @@ namespace CodeBase.Infrastructure.States {
     public void Exit() { }
 
     private void LoadProgressOrInitNew() {
-      _progressService.Progress = _saveLoadService.LoadProgress() ?? NewProgress();
+      if (_saveLoadService.LoadProgress() == null) {
+        _progressService.Progress = NewProgress();
+        Debug.Log("LoadProgress is null");
+      } else {
+        _progressService.Progress = _saveLoadService.LoadProgress();
+      }
     }
 
     private PlayerProgress NewProgress() {
       Debug.Log("NewProgress");
-      return new PlayerProgress(BootstrapState.MAIN);
+      var playerProgress = new PlayerProgress(BootstrapState.MAIN);
+      playerProgress.HeroState.MaxHP = 50;
+      playerProgress.HeroState.ResetHP();
+      playerProgress.HeroStats.Damage = 1.0f;
+      playerProgress.HeroStats.DamageRadius = .5f;
+      return playerProgress;
     }
   }
 }

@@ -1,6 +1,4 @@
-﻿using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.Services;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 namespace CodeBase.Enemy {
@@ -8,34 +6,30 @@ namespace CodeBase.Enemy {
     private const float MINIMUM_DISTANCE = 1;
     public NavMeshAgent Agent;
     private Transform _heroTransform;
-    private IGameFactory _gameFactory;
-
-    private void Start() {
-      _gameFactory = AllServices.Container.Single<IGameFactory>();
-      if (_gameFactory.HeroGameObject != null) {
-        InitializeHeroTransform();
-      } else {
-        _gameFactory.HeroCreated += OnCreateHero;
-      }
-    }
+    private bool _stopFolLow = false;
 
     private void Update() {
-      if (Initialized() && HeroNotReached()) {
+      if (_stopFolLow) {
+        return;
+      }
+      SetDestinationForAgent();
+    }
+
+    public void Construct(Transform heroTransform) {
+      _heroTransform = heroTransform;
+      Vector3 transformPosition = transform.position;
+      transformPosition.y = _heroTransform.position.y;
+      transform.position = transformPosition;
+    }
+
+    private void SetDestinationForAgent() {
+      if (HeroNotReached()) {
         Agent.destination = _heroTransform.position;
       }
     }
 
-    private void InitializeHeroTransform() {
-      _heroTransform = _gameFactory.HeroGameObject.transform;
-    }
-
-    private bool Initialized() {
-      return _heroTransform != null;
-    }
-
-    private void OnCreateHero() {
-      InitializeHeroTransform();
-      _gameFactory.HeroCreated -= OnCreateHero;
+    public void StopFollow() {
+      _stopFolLow = true;
     }
 
     private bool HeroNotReached() {

@@ -1,27 +1,19 @@
-﻿using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.Services;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace CodeBase.Enemy {
   public class RotateToHero : Follow {
     public float Speed;
     private Transform _heroTransform;
-    private IGameFactory _gameFactory;
     private Vector3 _positionToLook;
-
-    private void Start() {
-      _gameFactory = AllServices.Container.Single<IGameFactory>();
-      if (HeroExist()) {
-        InitializeHeroTransform();
-      } else {
-        _gameFactory.HeroCreated += OnHeroCreated;
-      }
-    }
 
     private void Update() {
       if (Initialized()) {
         RotateTowardsHero();
       }
+    }
+
+    public void Construct(Transform heroTransform) {
+      _heroTransform = heroTransform;
     }
 
     private void RotateTowardsHero() {
@@ -48,19 +40,6 @@ namespace CodeBase.Enemy {
 
     private bool Initialized() {
       return _heroTransform != null;
-    }
-
-    private void OnHeroCreated() {
-      InitializeHeroTransform();
-      _gameFactory.HeroCreated -= OnHeroCreated;
-    }
-
-    private void InitializeHeroTransform() {
-      _heroTransform = _gameFactory.HeroGameObject.transform;
-    }
-
-    private bool HeroExist() {
-      return _gameFactory.HeroGameObject != null;
     }
   }
 }
