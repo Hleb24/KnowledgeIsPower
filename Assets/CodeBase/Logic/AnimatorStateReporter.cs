@@ -20,6 +20,7 @@ namespace CodeBase.Logic {
 
     private void FindReader(Animator animator) {
       if (_stateReader != null) {
+        Debug.Log(animator.gameObject.name);
         return;
       }
 

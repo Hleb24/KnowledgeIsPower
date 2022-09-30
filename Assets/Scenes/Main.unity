@@ -692,9 +692,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _following: {fileID: 415700, guid: 181862a89f60d7a459002f9870860ad4, type: 3}
-  RotationAngleX: 50
+  RotationAngleX: 60
   Distance: 8
-  OffsetY: 0.5
+  OffsetY: 2
 --- !u!4 &519103036 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1379078254815409871, guid: fd20fbcacac534ea796b09b0ea4e0175,
