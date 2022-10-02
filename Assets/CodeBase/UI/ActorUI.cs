@@ -1,8 +1,8 @@
 ﻿using CodeBase.Logic;
 using UnityEngine;
 
-namespace CodeBase.Hero {
-  public class ActionUI : MonoBehaviour {
+namespace CodeBase.UI {
+  public class ActorUI : MonoBehaviour {
     public HpBar HpBar;
     private IHealth _health;
 
