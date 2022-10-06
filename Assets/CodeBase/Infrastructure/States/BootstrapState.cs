@@ -6,6 +6,8 @@ using CodeBase.Infrastructure.Services.SaveLoad;
 using CodeBase.Services.Input;
 using CodeBase.Services.Randomizer;
 using CodeBase.StaticData;
+using CodeBase.UI.Services.Factory;
+using CodeBase.UI.Services.Windows;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure.States {
@@ -45,12 +47,16 @@ namespace CodeBase.Infrastructure.States {
       _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
       RegisterStaticDataService();
       _services.RegisterSingle<IRandomService>(new RandomService());
+      _services.RegisterSingle<IUIFactory>(
+        new UIFactory(_services.Single<IAssetProvider>(), _services.Single<IStaticDataService>(), _services.Single<IPersistentProgressService>()));
+      _services.RegisterSingle<IWindowService>(new WindowService(_services.Single<IUIFactory>()));
       _services.RegisterSingle<IGameFactory>(InitGameFactory());
       _services.RegisterSingle<IStateLoadService>(new StateLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
     }
 
     private GameFactory InitGameFactory() {
-      return new GameFactory(_services.Single<IAssetProvider>(), _services.Single<IStaticDataService>(), _services.Single<IRandomService>(), _services.Single<IPersistentProgressService>());
+      return new GameFactory(_services.Single<IAssetProvider>(), _services.Single<IStaticDataService>(), _services.Single<IRandomService>(),
+        _services.Single<IPersistentProgressService>(), _services.Single<IWindowService>());
     }
 
     private void RegisterStaticDataService() {

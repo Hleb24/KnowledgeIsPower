@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using CodeBase.Enemy;
-using CodeBase.Hero;
 using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Logic;
 using CodeBase.Logic.EnemySpawners;
 using CodeBase.Services.Randomizer;
 using CodeBase.StaticData;
-using CodeBase.UI;
+using CodeBase.UI.Elements;
+using CodeBase.UI.Services.Windows;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,17 +17,22 @@ namespace CodeBase.Infrastructure.Factory {
     private readonly IStaticDataService _staticData;
     private readonly IRandomService _randomService;
     private readonly IPersistentProgressService _progressService;
+    private readonly IWindowService _windowService;
 
-    public GameFactory(IAssetProvider assetsProvider, IStaticDataService staticData, IRandomService randomService, IPersistentProgressService progressService) {
+    public GameFactory(IAssetProvider assetsProvider, IStaticDataService staticData, IRandomService randomService, IPersistentProgressService progressService, IWindowService windowService) {
       _assetsProvider = assetsProvider;
       _staticData = staticData;
       _randomService = randomService;
       _progressService = progressService;
+      _windowService = windowService;
     }
 
     public GameObject CreateHud() {
       GameObject hud = InstantiateRegistered(AssetPath.HUD_PATH);
       hud.GetComponentInChildren<LootCounter>().Construct(_progressService.Progress.WorldData);
+      foreach (var openWindowButton in hud.GetComponentsInChildren<OpenWindowButton>()) {
+        openWindowButton.Construct(_windowService);
+      }
       return hud;
     }
 
@@ -54,14 +59,6 @@ namespace CodeBase.Infrastructure.Factory {
       ProgressWriters.Clear();
     }
 
-    public void Register(ISaveProgressReader progressReader) {
-      if (progressReader is ISaveProgress progressWriter) {
-        ProgressWriters.Add(progressWriter);
-      }
-
-      ProgressReaders.Add(progressReader);
-    }
-
     public GameObject InstantiateMonster(MonsterId monsterTypeId, Transform parent) {
       MonsterStaticData monsterData = _staticData.ForMonster(monsterTypeId);
       GameObject monster = Object.Instantiate(monsterData.Prefab, parent.position, Quaternion.identity, parent);
@@ -76,7 +73,6 @@ namespace CodeBase.Infrastructure.Factory {
       var lootSpawner = monster.GetComponentInChildren<LootsSpawner>();
       lootSpawner.Construct(this, _randomService);
       lootSpawner.SetLoot(monsterData.MinLoot, monsterData.MaxLoot);
-      
 
       var attack = monster.GetComponent<Attack>();
       attack.Construct(HeroGameObject.transform);
@@ -90,6 +86,14 @@ namespace CodeBase.Infrastructure.Factory {
     }
 
     public void Unregister(SpawnPoint spawnPoint) { }
+
+    private void Register(ISaveProgressReader progressReader) {
+      if (progressReader is ISaveProgress progressWriter) {
+        ProgressWriters.Add(progressWriter);
+      }
+
+      ProgressReaders.Add(progressReader);
+    }
 
     private GameObject InstantiateRegistered(string prefabPath, Vector3 position) {
       GameObject gameObject = _assetsProvider.Instantiate(prefabPath, position);
