@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8485558656285874195
+--- !u!1 &3347660264595608319
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8485558656285874220}
-  - component: {fileID: 8485558656285874221}
-  - component: {fileID: 8485558656285874194}
+  - component: {fileID: 7470894167778697352}
+  - component: {fileID: 6073893023472410280}
+  - component: {fileID: 7837280848628964225}
   m_Layer: 0
   m_Name: SpawnMarker
   m_TagString: Untagged
@@ -18,44 +18,44 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8485558656285874220
+--- !u!4 &7470894167778697352
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8485558656285874195}
+  m_GameObject: {fileID: 3347660264595608319}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8485558656285874221
+--- !u!114 &6073893023472410280
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8485558656285874195}
+  m_GameObject: {fileID: 3347660264595608319}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 082cd858ed7d46dbb1f451125cc0e2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MonsterId: 0
---- !u!114 &8485558656285874194
+--- !u!114 &7837280848628964225
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8485558656285874195}
+  m_GameObject: {fileID: 3347660264595608319}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8a56a5bfa5743dd9327c836617ed55f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: SpawnMarker_81474544-580e-4b5b-85b7-af206335db0a
+  Id: SpawnMarker_e4909fd5-5bea-47b4-951a-1fb453a904c3

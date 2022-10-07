@@ -14,21 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelKey: Main
   EnemySpawners:
-  - Id: Main_4fb26dff-0353-46ec-8f0d-69207d5333c1
+  - Id: Main_9e422c52-94a6-47c1-bbc6-c48be0ffe3cb
     MonsterId: 0
-    Position: {x: 0.19, y: 0.2, z: 10.18}
-  - Id: Main_bb7d4e25-ba76-47e3-8b8d-a8d48e8960da
+    Position: {x: -9.1, y: 0.73, z: -13.46}
+  - Id: Main_673014b3-30eb-4eb1-b771-daa29da45b08
     MonsterId: 0
-    Position: {x: -7.74, y: 0.2, z: 0.4}
-  - Id: Main_e2b8f203-5e1f-443e-8e3f-3f87bfdcc273
+    Position: {x: 11.7, y: 0, z: 0.4}
+  - Id: Main_ca7c6c20-6cb2-4530-9287-d391018e9ada
     MonsterId: 0
-    Position: {x: -15.75, y: 1.41, z: -4.47}
-  - Id: Main_041f7d99-ec0c-47c8-918f-f98f39e2a19e
+    Position: {x: 4.14, y: 0.92, z: -16.05}
+  - Id: SpawnMarker_e4909fd5-5bea-47b4-951a-1fb453a904c3
     MonsterId: 0
-    Position: {x: -11.9, y: 0.2, z: -14.19}
-  - Id: Main_2c4c9dc0-4242-43b8-a6fe-125cb7ded3e0
+    Position: {x: 0, y: 0, z: 0}
+  - Id: Main_216a0e07-6bf4-4694-8f1f-80d43e3b6a1a
     MonsterId: 0
-    Position: {x: 5.04, y: 0.2, z: -14.19}
-  - Id: SpawnMarker_81474544-580e-4b5b-85b7-af206335db0a
+    Position: {x: -13.1, y: 0, z: 0}
+  - Id: Main_740656b4-5bef-4307-b844-57d233724fd4
     MonsterId: 0
-    Position: {x: 0, y: 0.2, z: 0}
+    Position: {x: 0, y: 0, z: 10.8}
+  InitialHeroPosition: {x: 9.3, y: 1.24, z: -13.93}

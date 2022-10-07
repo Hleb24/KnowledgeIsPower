@@ -1,11 +1,8 @@
-﻿using System.Linq;
-using CodeBase.Cameralogic;
-using CodeBase.Hero;
+﻿using CodeBase.Cameralogic;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Logic;
 using CodeBase.StaticData;
-using CodeBase.UI;
 using CodeBase.UI.Elements;
 using CodeBase.UI.Services.Factory;
 using UnityEngine;
@@ -25,7 +22,7 @@ namespace CodeBase.Infrastructure.States {
     private readonly IGameFactory _gameFactory;
     private readonly IPersistentProgressService _progressService;
     private readonly IStaticDataService _staticData;
-    private readonly  IUIFactory _uiFactory;
+    private readonly IUIFactory _uiFactory;
 
     public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain, IGameFactory gameFactory,
       IPersistentProgressService progressService, IStaticDataService staticData, IUIFactory uiFactory) {
@@ -66,17 +63,22 @@ namespace CodeBase.Infrastructure.States {
     }
 
     private void InitGameWorld() {
-      InitSpawners();
-      GameObject hero = _gameFactory.CreateHero(GameObject.FindWithTag(INITIAL_POINT_TAG));
+      LevelStaticData levelData = LevelStaticData();
+      InitSpawners(levelData);
+      GameObject hero = _gameFactory.CreateHero(levelData);
       GameObject hud = _gameFactory.CreateHud();
       BindHeroHealth(hud, hero);
 
       CameraFollow(hero);
     }
 
-    private void InitSpawners() {
+    private LevelStaticData LevelStaticData() {
       string sceneKey = SceneManager.GetActiveScene().name;
       LevelStaticData levelData = _staticData.ForLevel(sceneKey);
+      return levelData;
+    }
+
+    private void InitSpawners(LevelStaticData levelData) {
       foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners) {
         _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterId);
       }

@@ -2,45 +2,49 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace SimpleInputNamespace {
-  public class SimpleInputDragListener : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler {
-    private int pointerId = SimpleInputUtils.NON_EXISTING_TOUCH;
+namespace SimpleInputNamespace
+{
+	public class SimpleInputDragListener : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
+	{
+		public ISimpleInputDraggable Listener { get; set; }
 
-    private void Awake() {
-      var graphic = GetComponent<Graphic>();
-      if (!graphic) {
-        graphic = gameObject.AddComponent<NonDrawingGraphic>();
-      }
+		private int pointerId = SimpleInputUtils.NON_EXISTING_TOUCH;
 
-      graphic.raycastTarget = true;
-    }
+		private void Awake()
+		{
+			Graphic graphic = GetComponent<Graphic>();
+			if( !graphic )
+				graphic = gameObject.AddComponent<NonDrawingGraphic>();
 
-    public void OnDrag(PointerEventData eventData) {
-      if (pointerId != eventData.pointerId) {
-        return;
-      }
+			graphic.raycastTarget = true;
+		}
 
-      Listener.OnDrag(eventData);
-    }
+		public void OnPointerDown( PointerEventData eventData )
+		{
+			Listener.OnPointerDown( eventData );
+			pointerId = eventData.pointerId;
+		}
 
-    public void OnPointerDown(PointerEventData eventData) {
-      Listener.OnPointerDown(eventData);
-      pointerId = eventData.pointerId;
-    }
+		public void OnDrag( PointerEventData eventData )
+		{
+			if( pointerId != eventData.pointerId )
+				return;
 
-    public void OnPointerUp(PointerEventData eventData) {
-      if (pointerId != eventData.pointerId) {
-        return;
-      }
+			Listener.OnDrag( eventData );
+		}
 
-      Listener.OnPointerUp(eventData);
-      pointerId = SimpleInputUtils.NON_EXISTING_TOUCH;
-    }
+		public void OnPointerUp( PointerEventData eventData )
+		{
+			if( pointerId != eventData.pointerId )
+				return;
 
-    public void Stop() {
-      pointerId = SimpleInputUtils.NON_EXISTING_TOUCH;
-    }
+			Listener.OnPointerUp( eventData );
+			pointerId = SimpleInputUtils.NON_EXISTING_TOUCH;
+		}
 
-    public ISimpleInputDraggable Listener { get; set; }
-  }
+		public void Stop()
+		{
+			pointerId = SimpleInputUtils.NON_EXISTING_TOUCH;
+		}
+	}
 }

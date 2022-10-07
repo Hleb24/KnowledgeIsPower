@@ -1,6 +1,7 @@
 ﻿using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services;
+using CodeBase.Infrastructure.Services.Ads;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
 using CodeBase.Services.Input;
@@ -42,16 +43,24 @@ namespace CodeBase.Infrastructure.States {
     }
 
     private void RegisterServices() {
+      RegisterAdsService();
       _services.RegisterSingle(RegisterInputService());
+      _services.RegisterSingle<IGameStateMachine>(_stateMachine);
       _services.RegisterSingle<IAssetProvider>(new AssetProvider());
       _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
       RegisterStaticDataService();
       _services.RegisterSingle<IRandomService>(new RandomService());
       _services.RegisterSingle<IUIFactory>(
-        new UIFactory(_services.Single<IAssetProvider>(), _services.Single<IStaticDataService>(), _services.Single<IPersistentProgressService>()));
+        new UIFactory(_services.Single<IAssetProvider>(), _services.Single<IStaticDataService>(), _services.Single<IPersistentProgressService>(),_services.Single<IAdsService>()));
       _services.RegisterSingle<IWindowService>(new WindowService(_services.Single<IUIFactory>()));
       _services.RegisterSingle<IGameFactory>(InitGameFactory());
       _services.RegisterSingle<IStateLoadService>(new StateLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
+    }
+
+    private void RegisterAdsService() {
+      IAdsService adsServices = new AdsService();
+      adsServices.Initialize();
+      _services.RegisterSingle<IAdsService>(adsServices);
     }
 
     private GameFactory InitGameFactory() {

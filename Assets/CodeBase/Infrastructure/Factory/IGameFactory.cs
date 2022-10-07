@@ -10,7 +10,7 @@ using UnityEngine;
 namespace CodeBase.Infrastructure.Factory {
   public interface IGameFactory : IService {
     GameObject CreateHud();
-    GameObject CreateHero(GameObject at);
+    GameObject CreateHero(LevelStaticData at);
     void CleanUp();
     List<ISaveProgressReader> ProgressReaders { get; }
     List<ISaveProgress> ProgressWriters { get; }

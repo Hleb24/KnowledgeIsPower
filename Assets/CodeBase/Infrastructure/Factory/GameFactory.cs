@@ -36,8 +36,8 @@ namespace CodeBase.Infrastructure.Factory {
       return hud;
     }
 
-    public GameObject CreateHero(GameObject at) {
-      HeroGameObject = InstantiateRegistered(AssetPath.HERO_PATH, at.transform.position);
+    public GameObject CreateHero(LevelStaticData at) {
+      HeroGameObject = InstantiateRegistered(AssetPath.HERO_PATH, at.InitialHeroPosition);
       return HeroGameObject;
     }
 

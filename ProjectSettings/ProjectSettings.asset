@@ -881,8 +881,14 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
-    Build: 1
+    Build: 0
+    Collab: 0
+    Game Performance: 0
+    Legacy Analytics: 0
+    Purchasing: 0
+    UDP: 0
     UNet: 1
+    Unity Ads: 1
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -896,11 +902,11 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
-  cloudProjectId: 679d389d-2ccb-4383-bf53-ed47851e305d
+  cloudProjectId: c5cf66e7-e85a-41ff-8f57-aa35283442b2
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: KnowledgeIsPower
-  organizationId: kate-3755722
+  organizationId: hlib24
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 

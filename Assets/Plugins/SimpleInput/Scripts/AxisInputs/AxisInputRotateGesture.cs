@@ -2,68 +2,68 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace SimpleInputNamespace {
-  [RequireComponent(typeof(SimpleInputMultiDragListener))]
-  public class AxisInputRotateGesture : MonoBehaviour, ISimpleInputDraggableMultiTouch {
-    private const float MULTIPLIER = 180f / Mathf.PI;
+namespace SimpleInputNamespace
+{
+	[RequireComponent( typeof( SimpleInputMultiDragListener ) )]
+	public class AxisInputRotateGesture : MonoBehaviour, ISimpleInputDraggableMultiTouch
+	{
+		private const float MULTIPLIER = 180f / Mathf.PI;
 
-    public SimpleInput.AxisInput axis = new();
+		public SimpleInput.AxisInput axis = new SimpleInput.AxisInput();
 
-    public float sensitivity = 0.25f;
-    public bool clockwise = true;
+		public float sensitivity = 0.25f;
+		public bool clockwise = true;
 
-    private SimpleInputMultiDragListener eventReceiver;
+		private SimpleInputMultiDragListener eventReceiver;
 
-    private void Awake() {
-      eventReceiver = GetComponent<SimpleInputMultiDragListener>();
-    }
+		public int Priority { get { return 2; } }
 
-    private void OnEnable() {
-      eventReceiver.AddListener(this);
-      axis.StartTracking();
-    }
+		private void Awake()
+		{
+			eventReceiver = GetComponent<SimpleInputMultiDragListener>();
+		}
 
-    private void OnDisable() {
-      eventReceiver.RemoveListener(this);
-      axis.StopTracking();
-    }
+		private void OnEnable()
+		{
+			eventReceiver.AddListener( this );
+			axis.StartTracking();
+		}
 
-    public bool OnUpdate(List<PointerEventData> mousePointers, List<PointerEventData> touchPointers, ISimpleInputDraggableMultiTouch activeListener) {
-      axis.value = 0f;
+		private void OnDisable()
+		{
+			eventReceiver.RemoveListener( this );
+			axis.StopTracking();
+		}
 
-      if (activeListener != null && activeListener.Priority > Priority) {
-        return false;
-      }
+		public bool OnUpdate( List<PointerEventData> mousePointers, List<PointerEventData> touchPointers, ISimpleInputDraggableMultiTouch activeListener )
+		{
+			axis.value = 0f;
 
-      if (touchPointers.Count < 2) {
-        if (ReferenceEquals(activeListener, this) && touchPointers.Count == 1) {
-          touchPointers[0].pressPosition = touchPointers[0].position;
-        }
+			if( activeListener != null && activeListener.Priority > Priority )
+				return false;
 
-        return false;
-      }
+			if( touchPointers.Count < 2 )
+			{
+				if( ReferenceEquals( activeListener, this ) && touchPointers.Count == 1 )
+					touchPointers[0].pressPosition = touchPointers[0].position;
 
-      PointerEventData touch1 = touchPointers[touchPointers.Count - 1];
-      PointerEventData touch2 = touchPointers[touchPointers.Count - 2];
+				return false;
+			}
 
-      Vector2 deltaPosition = touch2.position - touch1.position;
-      Vector2 prevDeltaPosition = deltaPosition - (touch2.delta - touch1.delta);
+			PointerEventData touch1 = touchPointers[touchPointers.Count - 1];
+			PointerEventData touch2 = touchPointers[touchPointers.Count - 2];
 
-      float deltaAngle = (Mathf.Atan2(prevDeltaPosition.y, prevDeltaPosition.x) - Mathf.Atan2(deltaPosition.y, deltaPosition.x)) * MULTIPLIER;
-      if (deltaAngle > 180f) {
-        deltaAngle -= 360f;
-      } else if (deltaAngle < -180f) {
-        deltaAngle += 360f;
-      }
+			Vector2 deltaPosition = touch2.position - touch1.position;
+			Vector2 prevDeltaPosition = deltaPosition - ( touch2.delta - touch1.delta );
 
-      axis.value = clockwise ? deltaAngle * sensitivity : -deltaAngle * sensitivity;
-      return true;
-    }
+			float deltaAngle = ( Mathf.Atan2( prevDeltaPosition.y, prevDeltaPosition.x ) - Mathf.Atan2( deltaPosition.y, deltaPosition.x ) ) * MULTIPLIER;
+			if( deltaAngle > 180f )
+				deltaAngle -= 360f;
+			else if( deltaAngle < -180f )
+				deltaAngle += 360f;
 
-    public int Priority {
-      get {
-        return 2;
-      }
-    }
-  }
+			axis.value = clockwise ? deltaAngle * sensitivity : -deltaAngle * sensitivity;
+			return true;
+		}
+	}
 }

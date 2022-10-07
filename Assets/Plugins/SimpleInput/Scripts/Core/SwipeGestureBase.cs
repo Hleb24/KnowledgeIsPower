@@ -2,75 +2,81 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace SimpleInputNamespace {
-  [RequireComponent(typeof(SimpleInputMultiDragListener))]
-  public abstract class SwipeGestureBase<K, V> : SelectivePointerInput, ISimpleInputDraggableMultiTouch {
-    public Vector2 swipeAmount = new(0f, 25f);
+namespace SimpleInputNamespace
+{
+	[RequireComponent( typeof( SimpleInputMultiDragListener ) )]
+	public abstract class SwipeGestureBase<K, V> : SelectivePointerInput, ISimpleInputDraggableMultiTouch
+	{
+		public Vector2 swipeAmount = new Vector2( 0f, 25f );
 
-    private SimpleInputMultiDragListener eventReceiver;
+		private SimpleInputMultiDragListener eventReceiver;
 
-    private void Awake() {
-      eventReceiver = GetComponent<SimpleInputMultiDragListener>();
-    }
+		protected abstract BaseInput<K, V> Input { get; }
+		protected abstract V Value { get; }
 
-    private void OnEnable() {
-      eventReceiver.AddListener(this);
-      Input.StartTracking();
-    }
+		public abstract int Priority { get; }
 
-    private void OnDisable() {
-      eventReceiver.RemoveListener(this);
-      Input.StopTracking();
-    }
+		private void Awake()
+		{
+			eventReceiver = GetComponent<SimpleInputMultiDragListener>();
+		}
 
-    public bool OnUpdate(List<PointerEventData> mousePointers, List<PointerEventData> touchPointers, ISimpleInputDraggableMultiTouch activeListener) {
-      Input.ResetValue();
+		private void OnEnable()
+		{
+			eventReceiver.AddListener( this );
+			Input.StartTracking();
+		}
 
-      if (activeListener != null && activeListener.Priority > Priority) {
-        return false;
-      }
+		private void OnDisable()
+		{
+			eventReceiver.RemoveListener( this );
+			Input.StopTracking();
+		}
 
-      PointerEventData pointer = GetSatisfyingPointer(mousePointers, touchPointers);
-      if (pointer == null) {
-        return false;
-      }
+		public bool OnUpdate( List<PointerEventData> mousePointers, List<PointerEventData> touchPointers, ISimpleInputDraggableMultiTouch activeListener )
+		{
+			Input.ResetValue();
 
-      if (!IsSwipeSatisfied(pointer)) {
-        return ReferenceEquals(activeListener, this);
-      }
+			if( activeListener != null && activeListener.Priority > Priority )
+				return false;
 
-      Input.value = Value;
-      return true;
-    }
+			PointerEventData pointer = GetSatisfyingPointer( mousePointers, touchPointers );
+			if( pointer == null )
+				return false;
 
-    private bool IsSwipeSatisfied(PointerEventData eventData) {
-      Vector2 deltaPosition = eventData.position - eventData.pressPosition;
-      if (swipeAmount.x > 0f) {
-        if (deltaPosition.x < swipeAmount.x) {
-          return false;
-        }
-      } else if (swipeAmount.x < 0f) {
-        if (deltaPosition.x > swipeAmount.x) {
-          return false;
-        }
-      }
+			if( !IsSwipeSatisfied( pointer ) )
+				return ReferenceEquals( activeListener, this );
 
-      if (swipeAmount.y > 0f) {
-        if (deltaPosition.y < swipeAmount.y) {
-          return false;
-        }
-      } else if (swipeAmount.y < 0f) {
-        if (deltaPosition.y > swipeAmount.y) {
-          return false;
-        }
-      }
+			Input.value = Value;
+			return true;
+		}
 
-      return true;
-    }
+		private bool IsSwipeSatisfied( PointerEventData eventData )
+		{
+			Vector2 deltaPosition = eventData.position - eventData.pressPosition;
+			if( swipeAmount.x > 0f )
+			{
+				if( deltaPosition.x < swipeAmount.x )
+					return false;
+			}
+			else if( swipeAmount.x < 0f )
+			{
+				if( deltaPosition.x > swipeAmount.x )
+					return false;
+			}
 
-    public abstract int Priority { get; }
+			if( swipeAmount.y > 0f )
+			{
+				if( deltaPosition.y < swipeAmount.y )
+					return false;
+			}
+			else if( swipeAmount.y < 0f )
+			{
+				if( deltaPosition.y > swipeAmount.y )
+					return false;
+			}
 
-    protected abstract BaseInput<K, V> Input { get; }
-    protected abstract V Value { get; }
-  }
+			return true;
+		}
+	}
 }

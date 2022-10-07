@@ -1,23 +1,12 @@
-﻿namespace SimpleInputNamespace {
-  public class MouseButtonInputSwipeGesture : SwipeGestureBase<int, bool> {
-    public SimpleInput.MouseButtonInput mouseButton = new();
+﻿namespace SimpleInputNamespace
+{
+	public class MouseButtonInputSwipeGesture : SwipeGestureBase<int, bool>
+	{
+		public SimpleInput.MouseButtonInput mouseButton = new SimpleInput.MouseButtonInput();
 
-    public override int Priority {
-      get {
-        return 1;
-      }
-    }
+		protected override BaseInput<int, bool> Input { get { return mouseButton; } }
+		protected override bool Value { get { return true; } }
 
-    protected override BaseInput<int, bool> Input {
-      get {
-        return mouseButton;
-      }
-    }
-
-    protected override bool Value {
-      get {
-        return true;
-      }
-    }
-  }
+		public override int Priority { get { return 1; } }
+	}
 }
