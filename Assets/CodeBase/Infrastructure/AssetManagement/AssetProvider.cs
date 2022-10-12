@@ -17,6 +17,10 @@ namespace CodeBase.Infrastructure.AssetManagement {
     public async Task<GameObject> Instantiate(string address, Vector3 at) {
       return await Addressables.InstantiateAsync(address, at, Quaternion.identity).Task;
     }
+    
+    public async Task<GameObject> Instantiate(string address, Transform parent) {
+      return await Addressables.InstantiateAsync(address, parent).Task;
+    }
 
     public async Task<GameObject>  Instantiate(string address) {
       return await Addressables.InstantiateAsync(address).Task;
