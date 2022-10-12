@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace CodeBase.StaticData {
   [CreateAssetMenu(fileName = "MonsterData", menuName = "StaticData/Monster", order = 0)]
@@ -16,6 +17,6 @@ namespace CodeBase.StaticData {
     public float Cleavage;
     public float MoveSpeed = 3f;
 
-    public GameObject Prefab;
+    public AssetReferenceGameObject PrefabReference;
   }
 }

@@ -28,8 +28,8 @@ namespace CodeBase.Enemy {
       _lootMax = max;
     }
 
-    private void OnHappened() {
-      LootPiece lootPiece = _factory.CreateLoot();
+    private async void OnHappened() {
+      LootPiece lootPiece = await _factory.CreateLoot();
       lootPiece.transform.position = transform.position;
 
       Loot lootItem = GenerateLootItem();

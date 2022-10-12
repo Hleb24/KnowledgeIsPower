@@ -9,13 +9,9 @@ namespace CodeBase.Logic.EnemySpawners {
   public class SpawnPoint : MonoBehaviour, ISaveProgress {
     public MonsterId MonsterTypeId;
     public bool Slain;
-    public string ID { get; set; }
     private IGameFactory _factory;
     private EnemyDeath _enemyDeath;
 
-    public void Construct(IGameFactory factory) {
-      _factory = factory;
-    }
     private void OnDestroy() {
       _factory.Unregister(this);
     }
@@ -34,8 +30,12 @@ namespace CodeBase.Logic.EnemySpawners {
       }
     }
 
-    private void Spawn() {
-      GameObject monster = _factory.InstantiateMonster(MonsterTypeId, transform);
+    public void Construct(IGameFactory factory) {
+      _factory = factory;
+    }
+
+    private async void Spawn() {
+      GameObject monster = await _factory.InstantiateMonster(MonsterTypeId, transform);
       _enemyDeath = monster.GetComponent<EnemyDeath>();
       _enemyDeath.Happened += Slay;
     }
@@ -47,5 +47,7 @@ namespace CodeBase.Logic.EnemySpawners {
 
       Slain = true;
     }
+
+    public string ID { get; set; }
   }
 }

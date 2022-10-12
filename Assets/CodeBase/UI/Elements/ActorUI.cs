@@ -7,7 +7,6 @@ namespace CodeBase.UI.Elements {
     private IHealth _health;
 
     private void Start() {
-      PrepareHealth();
     }
 
     private void OnDestroy() {
@@ -17,6 +16,8 @@ namespace CodeBase.UI.Elements {
     public void Construct(IHealth heroHealth) {
       _health = heroHealth;
       _health.HealthChanged += UpdateHpBar;
+      PrepareHealth();
+
     }
 
     private void PrepareHealth() {

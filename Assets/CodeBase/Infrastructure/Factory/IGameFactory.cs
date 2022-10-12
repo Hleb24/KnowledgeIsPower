@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using CodeBase.Enemy;
 using CodeBase.Infrastructure.Services;
 using CodeBase.Infrastructure.Services.PersistentProgress;
@@ -9,14 +10,15 @@ using UnityEngine;
 
 namespace CodeBase.Infrastructure.Factory {
   public interface IGameFactory : IService {
-    GameObject CreateHud();
-    GameObject CreateHero(LevelStaticData at);
+    Task<GameObject> CreateHud();
+    Task<GameObject> CreateHero(LevelStaticData at);
     void CleanUp();
     List<ISaveProgressReader> ProgressReaders { get; }
     List<ISaveProgress> ProgressWriters { get; }
-    GameObject InstantiateMonster(MonsterId monsterTypeId, Transform parent);
+    Task<GameObject> InstantiateMonster(MonsterId monsterTypeId, Transform parent);
     void Unregister(SpawnPoint spawnPoint);
-    LootPiece CreateLoot();
-    void CreateSpawner(Vector3 at, string spawnerId, MonsterId monsterId);
+    Task<LootPiece> CreateLoot();
+    Task CreateSpawner(Vector3 at, string spawnerId, MonsterId monsterId);
+    Task WarmUp();
   }
 }

@@ -1,4 +1,5 @@
-﻿using CodeBase.Infrastructure.AssetManagement;
+﻿using System.Threading.Tasks;
+using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Infrastructure.Services.Ads;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.StaticData;
@@ -10,7 +11,7 @@ using UnityEngine;
 
 namespace CodeBase.UI.Services.Factory {
   public class UIFactory : IUIFactory {
-    private const string UI_ROOT_PATH = "UI/UIRoot";
+    private const string UI_ROOT_PATH = "UIRoot";
     private readonly IAssetProvider _assets;
     private Transform _uiRoot;
     private readonly IStaticDataService _staticData;
@@ -30,8 +31,9 @@ namespace CodeBase.UI.Services.Factory {
       shopWindow.Construct(_adsService, _progressService);
     }
 
-    public void CreateUIRoot() {
-      _uiRoot = _assets.Instantiate(UI_ROOT_PATH).transform;
+    public async Task CreateUIRoot() {
+      GameObject instantiate = await _assets.Instantiate(UI_ROOT_PATH);
+      _uiRoot = instantiate.transform;
     }
   }
 }

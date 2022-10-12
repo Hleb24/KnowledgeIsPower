@@ -1,4 +1,5 @@
-﻿using CodeBase.Cameralogic;
+﻿using System.Threading.Tasks;
+using CodeBase.Cameralogic;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Logic;
@@ -38,6 +39,7 @@ namespace CodeBase.Infrastructure.States {
     public void Enter(string sceneName) {
       _loadingCurtain.Show();
       _gameFactory.CleanUp();
+      _gameFactory.WarmUp();
       _sceneLoader.Load(sceneName, OnLoaded);
     }
 
@@ -45,15 +47,15 @@ namespace CodeBase.Infrastructure.States {
       _loadingCurtain.Hide();
     }
 
-    private void OnLoaded() {
-      InitUIRoot();
-      InitGameWorld();
+    private async void OnLoaded() {
+      await InitUIRoot();
+      await InitGameWorld();
       InformProgressReaders();
       _stateMachine.Enter<GameLoopState>();
     }
 
-    private void InitUIRoot() {
-      _uiFactory.CreateUIRoot();
+    private async Task InitUIRoot() {
+     await _uiFactory.CreateUIRoot();
     }
 
     private void InformProgressReaders() {
@@ -62,11 +64,11 @@ namespace CodeBase.Infrastructure.States {
       }
     }
 
-    private void InitGameWorld() {
+    private async Task InitGameWorld() {
       LevelStaticData levelData = LevelStaticData();
-      InitSpawners(levelData);
-      GameObject hero = _gameFactory.CreateHero(levelData);
-      GameObject hud = _gameFactory.CreateHud();
+      await InitSpawners(levelData);
+      GameObject hero = await _gameFactory.CreateHero(levelData);
+      GameObject hud = await _gameFactory.CreateHud();
       BindHeroHealth(hud, hero);
 
       CameraFollow(hero);
@@ -78,9 +80,9 @@ namespace CodeBase.Infrastructure.States {
       return levelData;
     }
 
-    private void InitSpawners(LevelStaticData levelData) {
+    private async Task InitSpawners(LevelStaticData levelData) {
       foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners) {
-        _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterId);
+        await _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterId);
       }
     }
 
